@@ -3,15 +3,16 @@ import { NavigationContainer } from "@react-navigation/native";
 import AppNavigator from "./app/navigation/AppNavigator";
 import navigationTheme from "./app/navigation/navigationTheme";
 
-//? Added this in for referenec:
+//? Added this in for reference:
 import { MaterialIcons } from "@expo/vector-icons";
-import { StyleSheet, Platform, Button, Alert } from "react-native";
+import { StyleSheet, Platform, Button, Alert, StatusBar } from "react-native";
 import {
   useDimensions,
   useDeviceOrientation,
 } from "@react-native-community/hooks";
-import colors from "./app/config/colors";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Constants from "expo-constants";
+import colors from "./app/config/colors";
 
 export default function App() {
   const { landscape, portrait } = useDeviceOrientation();
@@ -19,7 +20,7 @@ export default function App() {
   const { height, width } = screen;
   const { OS } = Platform;
 
-  console.log({ height, width, OS });
+  console.log({ height, width, OS, Constants });
 
   //* Testing is device is landscape or portrait by consts^ returns true/false
   //* Testing if device platform is android or ios with const ^
@@ -42,7 +43,7 @@ export default function App() {
       fontSize: 18,
       fontFamily: Platform.OS === "android" ? "Roboto" : "Avenir",
     },
-    edges: {
+    structure: {
       margin: 0,
       padding: 0,
       height: portrait ? "100%" : "30%",
@@ -51,29 +52,36 @@ export default function App() {
       borderRadius: 0,
       borderTopWidth: 0,
       borderTopLeftRadius: 0,
+      //! Before SafeView from native context was created - get statusbar height and padding for android
+      // paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+      //! A better way to do it than ^ will override padding from safeareaview if its ios which is still safe
+      // paddingTop: Constants.statusBarHeight,
     },
     position: {
-      alignItems: "center",
-      flex: 0,
-      justifyContent: "center",
+      // flex: 0,
+      // justifyContent: "center",
+      // alignItems: "center",
     },
   };
+  //! formik - react/react-native libary to help keep track of state in form data and tracks errors
 
+  // const f = 4 - 5;
+  // console.log("🚀 ~ file: App.js ~ line 67 ~ App ~ f", f);
   return (
     <NavigationContainer theme={navigationTheme}>
-      {/* <AppNavigator /> */}
-      <SafeAreaView style={[styles.edges, styles.position]}>
+      <AppNavigator />
+      {/* <SafeAreaView style={[styles.structure, styles.position]}>
         <Button
           style={styles.text}
           onPress={(e) => {
             e.preventDefault();
-            alert("clllicked");
+            alert("clicked");
           }}
           title="Log In 😄"
           color="red"
           accessibilityLabel="Learn more about this purple button"
         />
-      </SafeAreaView>
+      </SafeAreaView> */}
     </NavigationContainer>
   );
 }
