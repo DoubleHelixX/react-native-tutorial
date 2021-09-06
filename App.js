@@ -65,7 +65,7 @@ export default function App() {
   };
   //! formik - react/react-native libary to help keep track of state in form data and tracks errors
 
-  // const f = 4 - 5;
+  // const f = 4 - 5;//?
   // console.log("🚀 ~ file: App.js ~ line 67 ~ App ~ f", f);
   return (
     <NavigationContainer theme={navigationTheme}>
